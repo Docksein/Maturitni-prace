@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Food, Review
+from .forms import ReviewForm
 
-# Create your views here.
+def food_view_list(request):
