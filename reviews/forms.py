@@ -5,6 +5,6 @@ class ReviewForm(forms.ModelForm):
     
     class Meta:
         model = Review
-        fields = ["author_name", "comment", "ratings" ]
+        fields = ["author_name","ratings","comment" ]
 
 #class RawReviewFrom:
