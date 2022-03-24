@@ -13,4 +13,11 @@
     <p>Pro hodnocení se musíte přihlásit</p>
 {% endif %}
 
+{% for review in review_list %}
+    <h4>{{ review.author_name }}</h4>
+    <h5>{{ review.ratings }}</h5>
+    <p>{{ review.comment }}</p>
+{% endfor %}
+
+
 {% endblock %}

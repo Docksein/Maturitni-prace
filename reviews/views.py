@@ -23,8 +23,10 @@ def review_view(request, food_id):
 
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
+    review_list = Review.objects.filter(food_key = food).order_by('-published_date')
 
     if request.method == "POST":
+        
         form = ReviewForm(request.POST)
         if form.is_valid():
             ratings = form.cleaned_data['ratings']
@@ -34,11 +36,12 @@ def review_view(request, food_id):
             review.ratings = ratings
             review.comment = comment
             review.author_name = author_name
-            review.food = food
+            review.food_key = food
             review.published_date = timezone.now()
             review.save()
+            form = ReviewForm()
             
         else:
             form = ReviewForm()
     
-    return render(request, "reviews.html", { "form": form, "food":food, })
+    return render(request, "reviews.html", { "form": form, "food":food, "review_list":review_list })
