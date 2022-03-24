@@ -1,6 +1,7 @@
 from unicodedata import name
 from django.urls import reverse
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -16,7 +17,9 @@ class Food (models.Model):
 
 
 class Review (models.Model):
-    
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+
     rating_choices = (
         (1, 1),
         (2, 2),

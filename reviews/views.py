@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from .models import Food, Review
 from .forms import ReviewForm
 
+def home_view(request, *args, **kwargs):
+    return render(request, "home.html", {})
+
 def food_list_view(request):
     food_list = Food.objects.order_by("title")
     context = { "food_list" : food_list }

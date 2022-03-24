@@ -17,8 +17,7 @@ from xml.etree.ElementInclude import include
 from django import urls
 from django.contrib import admin
 from django.urls import path, include
-from pages.views import home_view
-from reviews.views import food_list_view, review_view
+from reviews.views import food_list_view, review_view, home_view
 from register.views import register_view
 
 urlpatterns = [

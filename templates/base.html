@@ -10,7 +10,7 @@
                <a href="/">Domů</a>
                <a href="/jidla/">Jídla</a>
                {% if user.is_authenticated %}
-               
+               <a href="/logout">Odhlásit se</a>
                {% else %}
                     <a href="/login">Přihlášení</a>
                 {% endif %}
