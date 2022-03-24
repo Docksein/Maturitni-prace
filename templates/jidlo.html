@@ -2,6 +2,7 @@
 
 {% block content %}
     {% for food in food_list %}
-        <a href="{{ food.get_absolute_url }}">{{ food.title }}</a>
+        <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
+        <p>{{ food.average_rating }}/5</p>
     {% endfor %}
 {% endblock %}

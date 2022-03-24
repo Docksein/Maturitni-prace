@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{ food.title }}</h2>
+<h2><strong>{{ food.title }}</strong></h2>
+<h4>Hodnocení: {{ food.average_rating }}/5</h4>
+
 {% if user.is_authenticated %}
-    <form action=".", method="POST">{% csrf_token %}
+    <form action="{% url 'food_reviews' food.id %}", method="POST">{% csrf_token %} 
         {{ form.as_p }}
         <input type="submit" value="Save"/>
     </form>
+{% else %}
+    <p>Pro hodnocení se musíte přihlásit</p>
 {% endif %}
 
 {% endblock %}

@@ -7,7 +7,7 @@ class ReviewForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(
             attrs={
-                "rows":20,
+                "rows":10,
                 "cols":70
             }
         )
