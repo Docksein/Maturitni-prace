@@ -13,7 +13,7 @@ class Food (models.Model):
 
     def average_rating(self):
         all_ratings = map(lambda x: x.ratings, self.review_set.all())
-        return numpy.mean(list(all_ratings))
+        return str(numpy.mean(list(all_ratings)))[:5]
 
     def get_absolute_url(self):
         return reverse("food_reviews", kwargs={"food_id": self.id})
