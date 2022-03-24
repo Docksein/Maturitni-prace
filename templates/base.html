@@ -9,7 +9,11 @@
            <ul>
                <a href="/">Domů</a>
                <a href="/jidla/">Jídla</a>
-               <a href="/">Přihlášení</a>
+               {% if user.is_authenticated %}
+               
+               {% else %}
+                    <a href="/login">Přihlášení</a>
+                {% endif %}
            </ul>
        </nav>
 

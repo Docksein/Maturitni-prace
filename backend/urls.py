@@ -27,4 +27,5 @@ urlpatterns = [
     path('jidla/', food_list_view, name='food_list'),
     path('jidla/<int:food_id>', review_view, name='food_reviews'),
     path('registrace/', register_view, name="register"),
+    path('', include("django.contrib.auth.urls")),
 ]

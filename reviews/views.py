@@ -1,3 +1,4 @@
+from urllib import response
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Food, Review
@@ -11,10 +12,13 @@ def food_list_view(request):
 def review_view(request, food_id):
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        form = ReviewForm()
-        return HttpResponse(status=200)
 
-    context = { "form": form }
-    return render(request, "reviews.html", context)
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form = ReviewForm()
+        else:
+            form = ReviewForm()
+    
+    return render(request, "reviews.html", { "form": form })
