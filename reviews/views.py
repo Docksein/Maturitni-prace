@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Food, Review
 from .forms import ReviewForm
+from django.utils import timezone
 
 def home_view(request, *args, **kwargs):
     food_list = Food.objects.order_by('-upload_date')[:9]
@@ -24,8 +25,6 @@ def review_view(request, food_id):
     form = ReviewForm(request.POST or None)
 
     if request.method == "POST":
-        data = request.POST.items()
-        print(data)
         form = ReviewForm(request.POST)
         if form.is_valid():
             ratings = form.cleaned_data['ratings']
@@ -36,6 +35,7 @@ def review_view(request, food_id):
             review.comment = comment
             review.author_name = author_name
             review.food = food
+            review.published_date = timezone.now()
             review.save()
             
         else:
