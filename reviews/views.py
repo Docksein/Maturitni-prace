@@ -12,6 +12,9 @@ def food_list_view(request):
     context = { "food_list" : food_list }
     return render(request, "jidlo.html", context)
 
+def review_list_view(request):
+    pass
+
 def review_view(request, food_id):
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
@@ -24,4 +27,4 @@ def review_view(request, food_id):
         else:
             form = ReviewForm()
     
-    return render(request, "reviews.html", { "form": form })
+    return render(request, "reviews.html", { "form": form, "food":food })
