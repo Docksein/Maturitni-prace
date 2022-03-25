@@ -6,8 +6,10 @@
 
 {% if user.is_authenticated %}
     <form action="{% url 'food_reviews' food.id %}", method="POST">{% csrf_token %} 
-        {{ form.as_p }}
-        <input type="submit" value="Save"/>
+            <div class="form-group">
+                    {{ form.as_p }}
+                <button type="submit" name="Save">Přidat komentář</button>
+            </div>
     </form>
 {% else %}
     <p>Pro hodnocení se musíte přihlásit</p>

@@ -16,9 +16,6 @@ def food_list_view(request):
     context = { "food_list" : food_list }
     return render(request, "jidlo.html", context)
 
-def review_list_view(request):
-    pass
-
 def review_view(request, food_id):
 
     food = get_object_or_404(Food, pk=food_id)
@@ -40,6 +37,7 @@ def review_view(request, food_id):
             review.published_date = timezone.now()
             review.save()
             form = ReviewForm()
+            return render(request, "review_post.html")
             
         else:
             form = ReviewForm()
