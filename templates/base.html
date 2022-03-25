@@ -32,6 +32,13 @@
             {% endif %}
             </li>
           </ul>
+            <ul class="navbar-nav ml-left">
+            <li class="nav-item"></li>
+            {% if user.is_staff %}
+              <a class="nav-link" href="/pridat">Přidání jídel</a>
+            {% endif %}
+            </li>
+          </ul>
         </div>
       </nav>
     

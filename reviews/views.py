@@ -22,6 +22,7 @@ def get_foods():
         test.append(el.text.strip())
         if '' or 'A:'in test:
             test[i].remove()
+        i += 1
     return test
 
 @staff_member_required
