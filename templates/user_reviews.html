@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Vaše hodnocení</h2>
+    {% for review in review_list %}
+    <h3>{{ review.food_key }}</h3>
+    <h5>{{ review.ratings }} z 5</h5>
+    <p>{{ review.comment }}</p>
+    {% endfor %}
+{% endblock %}

@@ -17,7 +17,7 @@ from xml.etree.ElementInclude import include
 from django import urls
 from django.contrib import admin
 from django.urls import path, include
-from reviews.views import food_list_view, review_view, home_view, get_foods_view
+from reviews.views import food_list_view, review_view, home_view, get_foods_view, user_review_view
 from register.views import register_view
 
 urlpatterns = [
@@ -28,4 +28,6 @@ urlpatterns = [
     path('registrace/', register_view, name="register"),
     path('', include("django.contrib.auth.urls")),
     path('pridat/', get_foods_view, name = "get_food"),
+    path('moje_hodnoceni/', user_review_view, name = "user_review_view"),
+
 ]

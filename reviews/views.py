@@ -110,3 +110,8 @@ def review_view(request, food_id):
             form = ReviewForm()
     
     return render(request, "reviews.html", { "form": form, "food":food, "review_list":review_list })
+
+def user_review_view(request):
+    username = request.user
+    review_list = Review.objects.filter(author_name=username).order_by('-published_date')
+    return render(request, "user_reviews.html", {"review_list":review_list})
