@@ -18,7 +18,7 @@ def get_foods():
     td_class = soup.find_all("td", {"class": "s12", "colspan":"4"})
     test = []
     i = 0
-    
+
     for el in td_class:
         test.append(el.text.strip())
 
@@ -54,16 +54,21 @@ def get_foods_view(request):
     if request.method == "POST":
         
         form = FoodForm(request.POST)
-        scrape_food = get_foods()
-        j = 0
+        if form.is_valid():
+            description = form.cleaned_data['description']
+            scrape_food = get_foods()
+            j = 0
         
-        for i in scrape_food:     
-            food_instance = Food()
-            food_instance.upload_date = timezone.now()
-            food_instance.title = scrape_food[j]
-            j += 1
+            for i in scrape_food:     
+                food_instance = Food()
+                food_instance.upload_date = timezone.now()
+                food_instance.title = scrape_food[j]
+                food_instance.description = description
+                j += 1
+                food_instance.save()
 
-            food_instance.save()
+            
+            return render(request, "food_post.html")
 
     return render(request, "add_foods.html", {"form":form})
 

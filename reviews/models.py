@@ -36,6 +36,6 @@ class Review (models.Model):
 
     published_date = models.DateTimeField(default=timezone.now)
     food_key = models.ForeignKey(Food, on_delete=models.CASCADE)
-    author_name = models.CharField(max_length=40, default="Anonymní")
+    author_name = models.CharField(max_length=40)
     comment = models.CharField(max_length=1000)
     ratings = models.IntegerField(choices=rating_choices)
