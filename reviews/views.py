@@ -1,9 +1,50 @@
+from tkinter import Scrollbar
 from urllib import response
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.contrib.admin.views.decorators import staff_member_required
 from .models import Food, Review
-from .forms import ReviewForm
+from .forms import FoodForm, ReviewForm
 from django.utils import timezone
+from requests import get
+from bs4 import BeautifulSoup
+
+def get_foods():
+    url = "https://docs.google.com/spreadsheets/d/1JpEUpUJ3slFP1y2PgJV1J_2_sBf5VOek4TUcq90P_Cs/pubhtml/sheet?headers=false&gid=0&range=A2:G43"
+
+    response = get(url)
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+    td_class = soup.find_all("td", {"class": "s12", "colspan":"4"})
+    test = []
+    i = 0
+    for el in td_class:
+        test.append(el.text.strip())
+        if '' or 'A:'in test:
+            test[i].remove()
+    return test
+
+@staff_member_required
+def get_foods_view(request):
+    form = FoodForm(request.POST or None)
+
+    if request.method == "POST":
+        
+        form = FoodForm(request.POST)
+        scrape_food = get_foods()
+        j = 0
+        
+        for i in scrape_food:     
+            food_instance = Food()
+            food_instance.upload_date = timezone.now()
+            food_instance.title = scrape_food[j]
+            j += 1
+
+            food_instance.save()
+
+    return render(request, "add_foods.html", {"form":form})
+
+
 
 def home_view(request, *args, **kwargs):
     food_list = Food.objects.order_by('-upload_date')[:9]

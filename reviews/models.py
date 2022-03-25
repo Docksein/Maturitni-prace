@@ -10,6 +10,8 @@ class Food (models.Model):
     
     title = models.CharField(max_length=100)
     upload_date = models.DateTimeField(default=timezone.now)
+    description = models.CharField(max_length=100, null=True )
+
 
     def average_rating(self):
         all_ratings = map(lambda x: x.ratings, self.review_set.all())

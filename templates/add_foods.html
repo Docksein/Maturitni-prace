@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if user.is_staff %}
+    <form action=". ", method="POST">{% csrf_token %} 
+            <div class="form-group">
+                    {{ form.as_p }}
+                <button type="submit" name="Save">Přidat jídla</button>
+            </div>
+    </form>
+{% endif %}
+
+{% endblock %}
