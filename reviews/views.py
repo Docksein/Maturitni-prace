@@ -18,11 +18,33 @@ def get_foods():
     td_class = soup.find_all("td", {"class": "s12", "colspan":"4"})
     test = []
     i = 0
+    
     for el in td_class:
         test.append(el.text.strip())
-        if '' or 'A:'in test:
-            test[i].remove()
-        i += 1
+
+        if '' == test[i] or "A:" in test[i]:
+            del test[i]
+        else:
+            i += 1
+
+    td_class2 = soup.find_all("td", {"class": "s18"})
+    for el in td_class2:
+        test.append(el.text.strip())
+
+        if '' == test[i] or "A:" in test[i]:
+            del test[i]
+        else:
+            i += 1
+
+    td_class3 = soup.find_all("td", {"class": "s15"})
+    for el in td_class3:
+        test.append(el.text.strip())
+
+        if '' == test[i] or "A:" in test[i]:
+            del test[i]
+        else:
+            i += 1
+    
     return test
 
 @staff_member_required
