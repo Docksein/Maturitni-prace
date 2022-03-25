@@ -15,7 +15,7 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ["author_name", "ratings", "comment"]
+        fields = ["ratings", "comment"]
 
 
 class FoodForm(forms.ModelForm):
