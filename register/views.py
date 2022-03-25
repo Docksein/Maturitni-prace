@@ -8,8 +8,9 @@ def register_view(response):
         form = UserCreationForm(response.POST)
         if form.is_valid():
             form.save()
+            return render(response, "register_post.html")
 
-        return redirect("/")
+        
     else:
         form = UserCreationForm()
     

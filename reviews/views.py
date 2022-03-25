@@ -97,10 +97,9 @@ def review_view(request, food_id):
         if form.is_valid():
             ratings = form.cleaned_data['ratings']
             comment = form.cleaned_data['comment']
-            review = Review()
+            review = Review(author_name = request.user)
             review.ratings = ratings
             review.comment = comment
-            review.author_name = request.user.username
             review.food_key = food
             review.published_date = timezone.now()
             review.save()
