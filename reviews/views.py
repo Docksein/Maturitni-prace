@@ -59,13 +59,14 @@ def get_foods_view(request):
             scrape_food = get_foods()
             j = 0
         
-            for i in scrape_food:     
-                food_instance = Food()
-                food_instance.upload_date = timezone.now()
-                food_instance.title = scrape_food[j]
-                food_instance.description = description
-                j += 1
-                food_instance.save()
+            for i in scrape_food:
+                if not Food.objects.filter(title=i).exists():
+                    food_instance = Food()
+                    food_instance.upload_date = timezone.now()
+                    food_instance.title = scrape_food[j]
+                    food_instance.description = description
+                    j += 1
+                    food_instance.save()
 
             
             return render(request, "food_post.html")
