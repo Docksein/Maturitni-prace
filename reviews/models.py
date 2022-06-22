@@ -1,5 +1,6 @@
 from email.policy import default
 from unicodedata import name
+from django.forms import ImageField
 from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User
@@ -13,6 +14,7 @@ class Food (models.Model):
     title = models.CharField(max_length=100)
     upload_date = models.DateTimeField(default=timezone.now)
     description = models.CharField(max_length=100, null=True)
+    picture = models.ImageField(upload_to="images/", blank = True, null=True)
 
     def average_rating(self):
         all_ratings = map(lambda x: x.ratings, self.review_set.all())

@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.urls import path, include
 from reviews.views import food_list_view, review_view, home_view, get_foods_view, user_review_view
 from register.views import register_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +32,4 @@ urlpatterns = [
     path('pridat/', get_foods_view, name = "get_food"),
     path('moje_hodnoceni/', user_review_view, name = "user_review_view"),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
