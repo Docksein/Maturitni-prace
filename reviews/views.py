@@ -7,45 +7,35 @@ from .models import Food, Review
 from .forms import FoodForm, ReviewForm
 from django.utils import timezone
 from requests import get
-from bs4 import BeautifulSoup
+import pandas
 
 def get_foods():
-    url = "https://docs.google.com/spreadsheets/d/1JpEUpUJ3slFP1y2PgJV1J_2_sBf5VOek4TUcq90P_Cs/pubhtml/sheet?headers=false&gid=0&range=A2:G43"
+    GSheet = "1JpEUpUJ3slFP1y2PgJV1J_2_sBf5VOek4TUcq90P_Cs"
 
-    response = get(url)
+    sheet_url = "https://docs.google.com/spreadsheets/d/"+ GSheet + "/export?format=csv"
 
-    soup = BeautifulSoup(response.text, 'html.parser')
-    td_class = soup.find_all("td", {"class": "s12", "colspan":"4"})
-    test = []
-    i = 0
+    x = pandas.read_csv(sheet_url).to_dict()
 
-    for el in td_class:
-        test.append(el.text.strip())
 
-        if '' == test[i] or "A:" in test[i]:
-            del test[i]
-        else:
-            i += 1
+    FirstLane = 4
+    DayDifference = 7
+    Message = []
 
-    td_class2 = soup.find_all("td", {"class": "s18"})
-    for el in td_class2:
-        test.append(el.text.strip())
+    for day in range(5):
+        week = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
 
-        if '' == test[i] or "A:" in test[i]:
-            del test[i]
-        else:
-            i += 1
+        Menu = {"Polévka": x["Unnamed: 2"][FirstLane + DayDifference * day],
+                "Ňamka": x["Unnamed: 2"][FirstLane + DayDifference * day + 1],
+                "Oběd 1": x["Unnamed: 2"][FirstLane + DayDifference * day + 2],
+                "Oběd 2": x["Unnamed: 2"][FirstLane + DayDifference * day + 3],
+                "Oběd 3": x["Unnamed: 2"][FirstLane + DayDifference * day + 4]
+                }
+        for key, value in Menu.items():
+            if str(value) != "nan":
+                Message.append(value)
 
-    td_class3 = soup.find_all("td", {"class": "s15"})
-    for el in td_class3:
-        test.append(el.text.strip())
-
-        if '' == test[i] or "A:" in test[i]:
-            del test[i]
-        else:
-            i += 1
     
-    return test
+    return Message
 
 @staff_member_required
 def get_foods_view(request):
@@ -60,7 +50,7 @@ def get_foods_view(request):
             j = 0
         
             for i in scrape_food:
-                if not Food.objects.filter(title=i).exists():
+                if not Food.objects.filter(title=str(i)).exists():
                     food_instance = Food()
                     food_instance.upload_date = timezone.now()
                     food_instance.title = scrape_food[j]
