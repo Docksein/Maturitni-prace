@@ -6,6 +6,10 @@
     <img src="{{ food.picture.url }}" width="200">
 {% endif %}
 <h4>Hodnocení: {{ food.average_rating }}/5</h4>
+<h4><strong>Tagy:</strong> {% for tag in food.tags.all %}
+    <a href="{{ tag.get_absolute_url }}">{{ tag }}</a>,
+{% endfor %}
+</h4>
 
 
 {% if user.is_authenticated %}

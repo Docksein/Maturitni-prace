@@ -3,11 +3,13 @@ from urllib import response
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import Food, Review
+from .models import Food, Review, Tag
 from .forms import FoodForm, ReviewForm
 from django.utils import timezone
 from requests import get
 import pandas
+
+#get_foods() code edited from https://github.com/AdamSedla/TelegramMenuBot/blob/main/MenuPart.py
 
 def get_foods():
     GSheet = "1JpEUpUJ3slFP1y2PgJV1J_2_sBf5VOek4TUcq90P_Cs"
@@ -75,6 +77,13 @@ def food_list_view(request):
     food_list = Food.objects.order_by("title")
     context = { "food_list" : food_list }
     return render(request, "jidlo.html", context)
+
+def tag_list_view(request, pk):
+
+    tag = get_object_or_404(Tag, pk=pk)
+    food_list = Food.objects.filter(tags=tag.id).order_by('-upload_date')
+
+    return render(request, "tag.html", {"tag":tag, "food_list":food_list})
 
 def review_view(request, food_id):
 

@@ -12,6 +12,10 @@ class Tag (models.Model):
 
     name = models.CharField(max_length=100)
 
+    def get_absolute_url(self):
+        return reverse("tag_list", kwargs={"pk": self.id})
+
+
     def __str__(self):
         return self.name
 
