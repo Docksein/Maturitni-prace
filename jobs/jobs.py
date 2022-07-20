@@ -2,6 +2,7 @@ from django.conf import settings
 from reviews.models import Food
 import pandas
 from django.utils import timezone
+import datetime
 
 #get_foods() code edited from https://github.com/AdamSedla/TelegramMenuBot/blob/main/MenuPart.py
 
@@ -17,18 +18,18 @@ def get_foods():
     FirstLane = 4
     DayDifference = 7
     Message = []
+    day = datetime.datetime.today().weekday()
 
-    for day in range(5):
+    Menu = {"Polévka": x["Unnamed: 2"][FirstLane + DayDifference * day],
+            "Ňamka": x["Unnamed: 2"][FirstLane + DayDifference * day + 1],
+            "Oběd 1": x["Unnamed: 2"][FirstLane + DayDifference * day + 2],
+            "Oběd 2": x["Unnamed: 2"][FirstLane + DayDifference * day + 3],
+            "Oběd 3": x["Unnamed: 2"][FirstLane + DayDifference * day + 4]
+            }
 
-        Menu = {"Polévka": x["Unnamed: 2"][FirstLane + DayDifference * day],
-                "Ňamka": x["Unnamed: 2"][FirstLane + DayDifference * day + 1],
-                "Oběd 1": x["Unnamed: 2"][FirstLane + DayDifference * day + 2],
-                "Oběd 2": x["Unnamed: 2"][FirstLane + DayDifference * day + 3],
-                "Oběd 3": x["Unnamed: 2"][FirstLane + DayDifference * day + 4]
-                }
-        for key, value in Menu.items():
-            if str(value) != "nan":
-                Message.append(value)
+    for key, value in Menu.items():
+        if str(value) != "nan":
+            Message.append(value)
 
     
     return Message
