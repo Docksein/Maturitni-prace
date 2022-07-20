@@ -24,7 +24,6 @@ class Food (models.Model):
     
     title = models.CharField(max_length=200)
     upload_date = models.DateTimeField(default=timezone.now)
-    description = models.CharField(max_length=100, null=True)
     picture = models.ImageField(upload_to="images/", blank = True, null=True)
     tags = models.ManyToManyField(Tag)
 

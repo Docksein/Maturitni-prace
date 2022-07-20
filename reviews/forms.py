@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review, Food
+from .models import Review
 
 class ReviewForm(forms.ModelForm):
     
@@ -16,9 +16,3 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ["ratings", "comment"]
-
-
-class FoodForm(forms.ModelForm):
-    class Meta:
-        model = Food
-        fields = ["description"]

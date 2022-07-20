@@ -3,6 +3,8 @@ from reviews.models import Food
 import pandas
 from django.utils import timezone
 
+#get_foods() code edited from https://github.com/AdamSedla/TelegramMenuBot/blob/main/MenuPart.py
+
 
 def get_foods():
     GSheet = "1JpEUpUJ3slFP1y2PgJV1J_2_sBf5VOek4TUcq90P_Cs"
@@ -17,7 +19,6 @@ def get_foods():
     Message = []
 
     for day in range(5):
-        week = ["Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek"]
 
         Menu = {"Polévka": x["Unnamed: 2"][FirstLane + DayDifference * day],
                 "Ňamka": x["Unnamed: 2"][FirstLane + DayDifference * day + 1],
