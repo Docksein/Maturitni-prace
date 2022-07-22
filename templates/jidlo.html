@@ -10,4 +10,16 @@
             <p>{{ food.average_rating }}/5</p>
         {% endif %}
     {% endfor %}
+{% if food_list.has_previous %}
+    <a href="?page=1">&laquo První&nbsp;</a>    
+    <a href="?page={{ food_list.previous_page_number }}">&lt Předchozí</a>
+{% endif %}
+
+&nbsp;&nbsp;Strana {{ food_list.number }} z {{ food_list.paginator.num_pages }}&nbsp;&nbsp;
+
+{% if food_list.has_next %}
+    <a href="?page={{ food_list.next_page_number }}"> Další &gt;&nbsp;</a>
+    <a href="?page={{ food_list.paginator.num_pages }}"> Poslední &raquo</a>
+{% endif %}
+
 {% endblock %}

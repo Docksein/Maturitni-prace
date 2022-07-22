@@ -6,9 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from .models import Food, Review, Tag
 from .forms import ReviewForm
 from django.utils import timezone
-from requests import get
-import pandas
-
+from django.core.paginator import Paginator
 
 
 def home_view(request, *args, **kwargs):
@@ -18,7 +16,10 @@ def home_view(request, *args, **kwargs):
 
 def food_list_view(request):
     
-    food_list = Food.objects.order_by("title")
+    p = Paginator(Food.objects.order_by("title"), 10)
+    page = request.GET.get('page')
+    food_list = p.get_page(page)
+
     context = { "food_list" : food_list }
     return render(request, "jidlo.html", context)
 
