@@ -8,7 +8,13 @@
 {% else %}
     <img src="{% static 'reviews/images/0320.jpg' %}" width="200">
 {% endif %}
-<h4>Hodnocení: {{ food.average_rating }}/5</h4>
+<h4>
+{% if food.average_rating == "nan"  %}
+    Nehodnoceno
+{% else %}
+    {{ food.average_rating }}/5
+{% endif %}
+</h4>
 <h4><strong>Tagy:</strong> {% for tag in food.tags.all %}
     <a href="{{ tag.get_absolute_url }}">{{ tag }}&nbsp;</a>
 {% endfor %}
