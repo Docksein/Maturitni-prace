@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Všechny tagy</h2>
+    {% for tag in tags_list %}
+        <h3><a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a></h3>
+    {% endfor %}
+{% endblock %}

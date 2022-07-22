@@ -29,6 +29,12 @@ def tag_list_view(request, pk):
 
     return render(request, "tag.html", {"tag":tag, "food_list":food_list})
 
+def tags_view(request):
+    tags_list = Tag.objects.order_by("name")
+    context = { "tags_list" : tags_list }
+    return render(request, "all_tags.html", context)
+
+
 def review_view(request, food_id):
 
     food = get_object_or_404(Food, pk=food_id)
