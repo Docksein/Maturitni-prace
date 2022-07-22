@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <h2><strong>{{ food.title }}</strong></h2>
 {% if food.picture %}
     <img src="{{ food.picture.url }}" width="200">
+{% else %}
+    <img src="{% static 'reviews/images/0320.jpg' %}" width="200">
 {% endif %}
 <h4>Hodnocení: {{ food.average_rating }}/5</h4>
 <h4><strong>Tagy:</strong> {% for tag in food.tags.all %}
