@@ -33,7 +33,7 @@
 {% endif %}
 
 {% for review in review_list %}
-    <h4>{{ review.author_name }} | {{ review.published_date }}</h4>
+    <h4>{{ review.author_name }} | {{ review.published_date|date:'d.m.Y' }}</h4>
     <h5>{{ review.ratings }} z 5</h5>
     <p>{{ review.comment }}</p>
 {% endfor %}
