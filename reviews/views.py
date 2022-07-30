@@ -10,7 +10,9 @@ from django.core.paginator import Paginator
 
 
 def home_view(request, *args, **kwargs):
-    food_list = Food.objects.order_by('-upload_date')[:9]
+    
+    today = timezone.now()
+    food_list = Food.objects.filter(upload_date__year=today.year, upload_date__month=today.month, upload_date__day=today.day)
 
     return render(request, "home.html", {"food_list":food_list})
 
