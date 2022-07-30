@@ -31,7 +31,8 @@ urlpatterns = [
     path('', include("django.contrib.auth.urls")),
     path('moje_hodnoceni/', user_review_view, name = "user_review_view"),
     path('tag/<str:pk>', tag_list_view, name='tag_list'),
-    path('tagy/', tags_view, name='all_tags_list')
+    path('tagy/', tags_view, name='all_tags_list'),
+    path('accounts/', include('allauth.urls')),
 
 
 
