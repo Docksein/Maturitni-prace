@@ -21,7 +21,6 @@ from reviews.views import food_list_view, review_view, home_view, user_review_vi
 from django.conf import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
@@ -31,7 +30,7 @@ urlpatterns = [
     path('moje_hodnoceni/', user_review_view, name = "user_review_view"),
     path('tag/<str:pk>', tag_list_view, name='tag_list'),
     path('tagy/', tags_view, name='all_tags_list'),
-    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.socialaccount.providers.google.urls')),
 
 
 
