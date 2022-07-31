@@ -1,9 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-<form method="post" class="from-group">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit" class="btn btn-success">Registrovat se</button>
-</form>
-{% endblock %}
