@@ -43,6 +43,10 @@ def job():
                 food_instance.upload_date = timezone.now()
                 food_instance.title = i
                 food_instance.save()
-                print(f"Food {i} saved")
+                print(f"Uloženo jídlo: {i}")
+            else:
+                old_food = Food.objects.filter(title=str(i))
+                old_food.upload_date = timezone.now()
+                old_food.save()
 
 
