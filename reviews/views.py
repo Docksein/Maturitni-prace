@@ -40,6 +40,7 @@ def tags_view(request):
 
 def review_view(request, food_id):
 
+    today = timezone.now()
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
     review_list = Review.objects.filter(food_key = food).order_by('-published_date')
@@ -48,17 +49,20 @@ def review_view(request, food_id):
         
         form = ReviewForm(request.POST)
         if form.is_valid():
-            ratings = form.cleaned_data['ratings']
-            comment = form.cleaned_data['comment']
-            review = Review(author_name = request.user)
-            review.ratings = ratings
-            review.comment = comment
-            review.food_key = food
-            review.published_date = timezone.now()
-            review.save()
-            form = ReviewForm()
-            return render(request, "review_post.html")
-            
+            if Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists():
+                return render(request, "cannot_review.html")
+            else:   
+                ratings = form.cleaned_data['ratings']
+                comment = form.cleaned_data['comment']
+                review = Review(author_name = request.user)
+                review.ratings = ratings
+                review.comment = comment
+                review.food_key = food
+                review.published_date = timezone.now()
+                review.save()
+                form = ReviewForm()
+                return render(request, "review_post.html")
+                
         else:
             form = ReviewForm()
     
