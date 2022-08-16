@@ -45,8 +45,9 @@ def job():
                 food_instance.save()
                 print(f"Uloženo jídlo: {i}")
             else:
-                old_food = Food.objects.filter(title=str(i))
+                old_food = Food.objects.get(title=str(i))
                 old_food.upload_date = timezone.now()
                 old_food.save()
+                print(f"Jídlo {i} bylo přepsáno")
 
 

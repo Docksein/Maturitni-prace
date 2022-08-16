@@ -8,7 +8,7 @@ from .forms import ReviewForm
 from django.utils import timezone
 from django.core.paginator import Paginator
 
-
+    
 def home_view(request, *args, **kwargs):
     
     today = timezone.now()
@@ -18,11 +18,17 @@ def home_view(request, *args, **kwargs):
 
 def food_list_view(request):
     
+    if request.user.is_authenticated: 
+        today = timezone.now()
+        reviewed_today = Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists()    
+    else:
+        reviewed_today = False
+    
     p = Paginator(Food.objects.order_by("title"), 10)
     page = request.GET.get('page')
     food_list = p.get_page(page)
 
-    context = { "food_list" : food_list }
+    context = { "food_list" : food_list, "reviewed_today" : reviewed_today, }
     return render(request, "jidlo.html", context)
 
 def tag_list_view(request, pk):
