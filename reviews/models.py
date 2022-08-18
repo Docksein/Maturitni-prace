@@ -31,6 +31,14 @@ class Food (models.Model):
     def average_rating(self):
         all_ratings = map(lambda x: x.ratings, self.review_set.all())
         return str(numpy.mean(list(all_ratings)))[:3]
+    
+    def average_rating_home(self):
+        all_ratings = str(numpy.mean(list(map(lambda x: x.ratings, self.review_set.all()))))[:3]
+        if all_ratings == "nan":
+            return "0"
+        else:
+            return all_ratings
+
 
     def get_absolute_url(self):
         return reverse("food_reviews", kwargs={"food_id": self.id})

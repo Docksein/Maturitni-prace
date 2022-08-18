@@ -21,9 +21,10 @@ def home_view(request, *args, **kwargs):
     
     today = timezone.now()
     food_list = Food.objects.filter(upload_date__year=today.year, upload_date__month=today.month, upload_date__day=today.day)
+    highest_rated = sorted(Food.objects.all(), key=lambda o: (o.average_rating_home()), reverse=True)[:5]
     weekend = is_weekend()
 
-    return render(request, "home.html", {"food_list":food_list, "weekend":weekend})
+    return render(request, "home.html", {"food_list":food_list, "weekend":weekend, "highest_rated":highest_rated})
 
 def food_list_view(request):
     

@@ -18,4 +18,18 @@
     {% endif %}
 {% endfor %}
 
+<br />
+<h2 class="font-weight-bold">Nejlépe hodnocená jídla:</h2>
+<br />
+
+{% for food in highest_rated %}
+    <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
+    {% if food.average_rating == "nan"  %}
+        <p>Nehodnoceno</p>
+    {% else %}
+        <p>{{ food.average_rating }}/5</p>
+    {% endif %}
+{% endfor %}
+
+
 {% endblock %}
