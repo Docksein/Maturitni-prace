@@ -5,7 +5,9 @@
 <strong><p><div class="p-3 mb-2 bg-danger text-white">Už jste dnes hodnotil, znovu můžete až zítra.</div></p></strong>
 {% endif %}
 
-<h2>Všechna jídla</h2>
+<br/>
+<h2 class="font-weight-bold">Všechna jídla</h2>
+<br/>
     {% for food in food_list %}
         <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
         {% if food.average_rating == "nan"  %}

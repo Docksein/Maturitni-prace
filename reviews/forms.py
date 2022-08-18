@@ -15,18 +15,17 @@ class ReviewForm(forms.ModelForm):
     comment = forms.CharField(
         required=False,
         widget=forms.Textarea(
-            attrs={
-                "rows":10,
-                "cols":70,
-        
-            }
+            attrs={"rows":10, "cols":70, "class":"form-control", "placeholder":"Zde přidejte komentář"}
         ),        
         label = "Komentář"
 
     )
     ratings = forms.ChoiceField(
         label = "Hodnocení",
-        choices= rating_choices
+        choices= rating_choices,
+        widget = forms.Select(
+            attrs={"class":"form-control"},
+        ),
     )
 
     class Meta:

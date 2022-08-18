@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Vaše hodnocení</h2>
+
+    <h2 class="font-weight-bold">Vaše hodnocení</h2>
     {% for review in review_list %}
     <h3>{{ review.food_key }} </h3>
     <h5><strong>{{ review.ratings }} z 5 </strong>| {{ review.published_date|date:'d.m.Y' }}</h5>

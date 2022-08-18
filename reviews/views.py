@@ -7,14 +7,23 @@ from .models import Food, Review, Tag
 from .forms import ReviewForm
 from django.utils import timezone
 from django.core.paginator import Paginator
+import datetime
 
+def is_weekend():
+    weekno = datetime.datetime.today().weekday()
+
+    if weekno < 5:
+        return False
+    else: 
+        return True
     
 def home_view(request, *args, **kwargs):
     
     today = timezone.now()
     food_list = Food.objects.filter(upload_date__year=today.year, upload_date__month=today.month, upload_date__day=today.day)
+    weekend = is_weekend()
 
-    return render(request, "home.html", {"food_list":food_list})
+    return render(request, "home.html", {"food_list":food_list, "weekend":weekend})
 
 def food_list_view(request):
     
@@ -47,6 +56,11 @@ def tags_view(request):
 def review_view(request, food_id):
 
     today = timezone.now()
+    if request.user.is_authenticated: 
+        reviewed_today = Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists()    
+    else:
+        reviewed_today = False
+
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
     review_list = Review.objects.filter(food_key = food).order_by('-published_date')
@@ -56,7 +70,7 @@ def review_view(request, food_id):
         form = ReviewForm(request.POST)
         if form.is_valid():
             if Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists():
-                return render(request, "cannot_review.html")
+                return render(request, "cannot_review.html", {"food":food})
             else:   
                 ratings = form.cleaned_data['ratings']
                 comment = form.cleaned_data['comment']
@@ -67,12 +81,12 @@ def review_view(request, food_id):
                 review.published_date = timezone.now()
                 review.save()
                 form = ReviewForm()
-                return render(request, "review_post.html")
+                return render(request, "review_post.html", {"food":food})
                 
         else:
             form = ReviewForm()
     
-    return render(request, "reviews.html", { "form": form, "food":food, "review_list":review_list })
+    return render(request, "reviews.html", { "form": form, "food":food, "review_list":review_list, "reviewed_today" : reviewed_today, })
 
 def user_review_view(request):
     username = request.user
