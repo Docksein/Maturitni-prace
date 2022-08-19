@@ -9,6 +9,9 @@
         {% else %}
             {{ food.average_rating }}/5
         {% endif %}
+        {% for tag in food.tags.all %}
+        | <a href="{{ tag.get_absolute_url }}" class="text-secondary">{{ tag }}</a>
+        {% endfor %}
         </p>
     {% endfor %}
 {% endblock %}

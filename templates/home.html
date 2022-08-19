@@ -16,6 +16,9 @@
     {% else %}
         <p>{{ food.average_rating }}/5</p>
     {% endif %}
+    {% for tag in food.tags.all %}
+        | <a href="{{ tag.get_absolute_url }}" class="text-secondary">{{ tag }}</a>
+    {% endfor %}
 {% endfor %}
 
 <br />
@@ -24,11 +27,15 @@
 
 {% for food in highest_rated %}
     <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
-    {% if food.average_rating == "nan"  %}
-        <p>Nehodnoceno</p>
+    <p>{% if food.average_rating == "nan"  %}
+        Nehodnoceno&nbsp;
     {% else %}
-        <p>{{ food.average_rating }}/5</p>
+        {{ food.average_rating }}/5&nbsp; 
     {% endif %}
+    {% for tag in food.tags.all %}
+        | <a href="{{ tag.get_absolute_url }}" class="text-secondary">{{ tag }}</a>
+    {% endfor %}
+    </p>
 {% endfor %}
 
 

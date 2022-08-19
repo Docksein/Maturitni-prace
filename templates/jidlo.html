@@ -10,11 +10,15 @@
 <br/>
     {% for food in food_list %}
         <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
-        {% if food.average_rating == "nan"  %}
-            <p>Nehodnoceno</p>
+        <p>{% if food.average_rating == "nan"  %}
+            Nehodnoceno&nbsp;
         {% else %}
-            <p>{{ food.average_rating }}/5</p>
+            {{ food.average_rating }}/5&nbsp;
         {% endif %}
+        {% for tag in food.tags.all %}
+            | <a href="{{ tag.get_absolute_url }}" class="text-secondary">{{ tag }}</a>
+        {% endfor %}
+        </p>
     {% endfor %}
 {% if food_list.has_previous %}
     <a href="?page=1">&laquo První&nbsp;</a>    

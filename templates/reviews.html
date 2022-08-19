@@ -46,7 +46,7 @@
     {% endif %}
 
 {% else %}
-    <strong><p><div class="text-secondary">Pro hodnocení se musíte přihlásit</div></p></strong>
+    <strong><p><div class="text-info">Pro hodnocení se musíte přihlásit</div></p></strong>
 {% endif %}
 
 <br/>
@@ -54,8 +54,8 @@
 
 {% for review in review_list %}
     <hr class="hr" />
-    <h4>{{ review.author_name }} | {{ review.published_date|date:'d.m.Y' }}</h4>
-    <h5>{{ review.ratings }} z 5</h5>
+    <h4>{{ review.author_name }} | <span class="text-secondary">{{ review.published_date|date:'d.m.Y' }}</span></h4>
+    <h5>Hodnotil: {{ review.ratings }} z 5</h5>
     <p>{{ review.comment }}</p>
 {% endfor %}
 
