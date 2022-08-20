@@ -1,25 +1,45 @@
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block content %}
 <br />
 <h2 class="font-weight-bold">Dnešní jídla:</h2>
 <br />
 {% if weekend %}
-    <h4>Dnes je víkend</h4>
+<div class="card">
+    <div class="card-body">
+      Dnes je víkend
+    </div>
+</div>
 {% endif %}
 
-
+<div class="row">
 {% for food in food_list %}
-    <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
-    {% if food.average_rating == "nan"  %}
-        <p>Nehodnoceno
+<div class="col-sm-4">
+<div class="card" style="width: 20rem;">
+    {% if food.picture %}
+        <img class="card-img-left" src="{{ food.picture.url }}" alt="Card image cap">
     {% else %}
-        {{ food.average_rating }}/5
+        <img class="card-img-left" src="{% static 'reviews/images/0320.jpg' %}" alt="Card image cap">
     {% endif %}
-    {% for tag in food.tags.all %}
-        | <a href="{{ tag.get_absolute_url }}" class="text-secondary">{{ tag }}</a>
-    {% endfor %}</p>
+    <div class="card-body">
+        <h5 class="card-title"><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+        {% if food.average_rating == "nan"  %}
+            Nehodnoceno
+        {% else %}
+            {{ food.average_rating }}/5
+        {% endif %}
+            </h6>
+        {% for tag in food.tags.all %}
+            <a href="{{ tag.get_absolute_url }}" class="text-secondary">{{ tag }}</a> /
+        {% endfor %}
+    </div>
+</div>
+</div>
 {% endfor %}
+</div>
 
 <br />
 <h2 class="font-weight-bold">Nejlépe hodnocená jídla:</h2>

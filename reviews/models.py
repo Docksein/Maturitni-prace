@@ -25,7 +25,7 @@ class Food (models.Model):
     title = models.CharField(max_length=200)
     upload_date = models.DateTimeField(default=timezone.now)
     picture = models.ImageField(upload_to="images/", blank = True, null=True)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
 
     def average_rating(self):
