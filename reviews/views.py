@@ -27,18 +27,12 @@ def home_view(request, *args, **kwargs):
     return render(request, "home.html", {"food_list":food_list, "weekend":weekend, "highest_rated":highest_rated})
 
 def food_list_view(request):
-    
-    if request.user.is_authenticated: 
-        today = timezone.now()
-        reviewed_today = Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists()    
-    else:
-        reviewed_today = False
-    
+        
     p = Paginator(Food.objects.order_by("title"), 10)
     page = request.GET.get('page')
     food_list = p.get_page(page)
 
-    context = { "food_list" : food_list, "reviewed_today" : reviewed_today, }
+    context = { "food_list" : food_list, }
     return render(request, "jidlo.html", context)
 
 def tag_list_view(request, pk):
@@ -55,22 +49,22 @@ def tags_view(request):
 
 
 def review_view(request, food_id):
-
-    today = timezone.now()
-    if request.user.is_authenticated: 
-        reviewed_today = Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists()    
-    else:
-        reviewed_today = False
-
+    
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
     review_list = Review.objects.filter(food_key = food).order_by('-published_date')
+
+    today = timezone.now()
+    if request.user.is_authenticated: 
+        reviewed_today = Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user, food_key = food).exists()    
+    else:
+        reviewed_today = False
 
     if request.method == "POST":
         
         form = ReviewForm(request.POST)
         if form.is_valid():
-            if Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user).exists():
+            if Review.objects.filter(published_date__year=today.year, published_date__month=today.month, published_date__day=today.day, author_name = request.user, food_key = food).exists():
                 return render(request, "cannot_review.html", {"food":food})
             else:   
                 ratings = form.cleaned_data['ratings']

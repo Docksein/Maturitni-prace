@@ -2,5 +2,7 @@
 
 {% block content %}
 <h2>Váš komentář byl úspěšně zapsán</h2>
+<strong><p><div class="p-3 mb-2 bg-danger text-white">Stejné jídlo můžete hodnotit pouze jedenkrát denně</div></p></strong>
+
 <p>Zpět na: <a href="{{ food.get_absolute_url }}">{{ food.title }}</a></p>
 {% endblock %}
