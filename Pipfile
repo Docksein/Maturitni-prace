@@ -5,6 +5,11 @@ name = "pypi"
 
 [packages]
 django = "*"
+numpy = "*"
+apscheduler = "*"
+django-allauth = "*"
+pandas = "*"
+pillow = "*"
 
 [dev-packages]
 
