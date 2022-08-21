@@ -11,7 +11,16 @@ rating_choices = (
 
 
 class ReviewForm(forms.ModelForm):
-    
+    """
+    A class to represent a review for a form that the user fills out
+    ...
+    Attributes
+    ----------
+    comment: str
+        comment of the food
+    ratings: int
+        rating of the food from 1 to 5 (1 being the worst, 5 being the best)
+    """
     comment = forms.CharField(
         required=False,
         widget=forms.Textarea(

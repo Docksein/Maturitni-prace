@@ -9,6 +9,20 @@ from django.conf import settings
 import numpy 
 
 class Tag (models.Model):
+    """
+    A class to represent tag
+    ...
+    Attributes
+    ----------
+    name: str
+        name of the tag
+    
+    Methods
+    ----------
+    get_absolute_url(self)
+
+    __str__(self)
+    """
 
     name = models.CharField(max_length=100)
 
@@ -23,6 +37,30 @@ class Tag (models.Model):
 
 
 class Food (models.Model):
+    """
+    A class to represent a food.
+    ...
+    Attributes
+    ----------
+    title : str
+        title of the food
+    upload_date: timezone.now()
+        exact time of when the food was uploaded to the database
+    picture: image file
+        image file of the food
+    tags: foreign key
+        Many-to-many database relationship with the Tag class
+    
+    Methods
+    ----------
+    average_rating(self)
+
+    average_rating_home(self)
+
+    get_absolute_url(self)
+
+    __str__(self)
+    """
     
     title = models.CharField(max_length=200)
     upload_date = models.DateTimeField(default=timezone.now)
@@ -59,6 +97,22 @@ class Food (models.Model):
 
 
 class Review (models.Model):
+    """
+    A class to represent a review
+    ...
+    Attributes
+    ----------
+    published_date: timezone.now()
+        exact time of when the review was published to the database
+    food_key: ForeignKey
+        key of the food that the review belongs to
+    author_name : str
+        name of the author that published the review
+    comment: str
+        comment of the food
+    ratings: int
+        rating of the food from 1 to 5 (1 being the worst, 5 being the best)
+    """
 
     rating_choices = (
         (1, 1),
