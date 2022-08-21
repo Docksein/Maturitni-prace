@@ -8,6 +8,7 @@ import datetime
 
 
 def get_foods():
+    """Parse today's foods from the school cantine, return their names"""
     GSheet = "1JpEUpUJ3slFP1y2PgJV1J_2_sBf5VOek4TUcq90P_Cs"
 
     sheet_url = "https://docs.google.com/spreadsheets/d/"+ GSheet + "/export?format=csv"
@@ -35,6 +36,7 @@ def get_foods():
     return Message
 
 def job():
+    """Take food names from get_foods() function, save them to the database. If already saved, updates their day of upload to today's date"""
     scrape_food = get_foods()
                    
     for i in scrape_food:

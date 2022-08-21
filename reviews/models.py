@@ -13,10 +13,12 @@ class Tag (models.Model):
     name = models.CharField(max_length=100)
 
     def get_absolute_url(self):
+        """Return the absolute url of a tag"""
         return reverse("tag_list", kwargs={"pk": self.id})
 
 
     def __str__(self):
+        """Return the name of a tag instance"""
         return self.name
 
 
@@ -29,10 +31,15 @@ class Food (models.Model):
 
 
     def average_rating(self):
+        """Return average rating of all reviews"""
         all_ratings = map(lambda x: x.ratings, self.review_set.all())
         return str(numpy.mean(list(all_ratings)))[:3]
     
     def average_rating_home(self):
+        """
+        Return average rating of all reviews.
+        If there are no reviews, return 0 so it can be sorted.
+         """
         all_ratings = str(numpy.mean(list(map(lambda x: x.ratings, self.review_set.all()))))[:3]
         if all_ratings == "nan":
             return "0"
@@ -41,9 +48,11 @@ class Food (models.Model):
 
 
     def get_absolute_url(self):
+        """Return absolute url of a food instance"""
         return reverse("food_reviews", kwargs={"food_id": self.id})
 
     def __str__(self):
+        """Return the title of a food instance"""
         return self.title
 
 

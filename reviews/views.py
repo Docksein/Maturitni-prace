@@ -10,6 +10,7 @@ from django.core.paginator import Paginator
 import datetime
 
 def is_weekend():
+    """Return True if today is weekend, else return False"""
     weekno = datetime.datetime.today().weekday()
 
     if weekno < 5:
@@ -18,7 +19,7 @@ def is_weekend():
         return True
     
 def home_view(request, *args, **kwargs):
-    
+    """Return render of the home page with two lists containing 5 highest rated foods and foods that were uploaded today"""
     today = timezone.now()
     food_list = Food.objects.filter(upload_date__year=today.year, upload_date__month=today.month, upload_date__day=today.day)
     highest_rated = sorted(Food.objects.all(), key=lambda o: (o.average_rating_home()), reverse=True)[:5]
@@ -27,7 +28,7 @@ def home_view(request, *args, **kwargs):
     return render(request, "home.html", {"food_list":food_list, "weekend":weekend, "highest_rated":highest_rated})
 
 def food_list_view(request):
-        
+    """Reurn render of a list of all food instances"""    
     p = Paginator(Food.objects.order_by("title"), 10)
     page = request.GET.get('page')
     food_list = p.get_page(page)
@@ -36,20 +37,26 @@ def food_list_view(request):
     return render(request, "jidlo.html", context)
 
 def tag_list_view(request, pk):
-
+    """Takes an id of a tag instance, 
+    Return render of page with the list of all foods that are tagged with this id
+    """
     tag = get_object_or_404(Tag, pk=pk)
     food_list = Food.objects.filter(tags=tag.id).order_by('-upload_date')
 
     return render(request, "tag.html", {"tag":tag, "food_list":food_list})
 
 def tags_view(request):
+    """Return render of page with the list of all tags"""
     tags_list = Tag.objects.order_by("name")
     context = { "tags_list" : tags_list }
     return render(request, "all_tags.html", context)
 
 
 def review_view(request, food_id):
-    
+    """Taken and id of a food instance
+        return render of a page with its average score, tags and all reviews.
+        If the user is authenticated an hasn't reviewed the food today, it also renders a review form.
+    """
     food = get_object_or_404(Food, pk=food_id)
     form = ReviewForm(request.POST or None)
     review_list = Review.objects.filter(food_key = food).order_by('-published_date')
@@ -84,6 +91,7 @@ def review_view(request, food_id):
     return render(request, "reviews.html", { "form": form, "food":food, "review_list":review_list, "reviewed_today" : reviewed_today, })
 
 def user_review_view(request):
+    """"Return render of all reviews that the current user has posted"""
     username = request.user
     review_list = Review.objects.filter(author_name=username).order_by('-published_date')
     return render(request, "user_reviews.html", {"review_list":review_list})
