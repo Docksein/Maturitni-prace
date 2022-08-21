@@ -28,12 +28,24 @@ def home_view(request, *args, **kwargs):
     return render(request, "home.html", {"food_list":food_list, "weekend":weekend, "highest_rated":highest_rated})
 
 def food_list_view(request):
-    """Reurn render of a list of all food instances"""    
-    p = Paginator(Food.objects.order_by("title"), 10)
+    """Reurn render of a list of all food instances"""  
+    if 'order_by' in request.GET:
+        order_by = request.GET.get('order_by')
+        if "highest_rated" == order_by:  
+            foods = sorted(Food.objects.all(), key=lambda o: (o.average_rating_home()), reverse=True)
+        elif "lowest_rated" == order_by:
+            foods = sorted(Food.objects.all(), key=lambda o: (o.average_rating_home()))
+        else:       
+            foods = Food.objects.order_by(order_by)
+    else:
+        order_by = "title"
+        foods = Food.objects.order_by(order_by)
+    
+    p = Paginator(foods, 10)
     page = request.GET.get('page')
     food_list = p.get_page(page)
 
-    context = { "food_list" : food_list, }
+    context = { "food_list" : food_list, "order_by":order_by }
     return render(request, "jidlo.html", context)
 
 def tag_list_view(request, pk):

@@ -4,7 +4,16 @@
 
 <br/>
 <h2 class="font-weight-bold">Všechna jídla</h2>
-<br/>
+Seřadit podle:
+<div class="list-group">
+<a href="?order_by=title">A-Z</a>
+<a href="?order_by=-title">Z-A</a>
+<a href="?order_by=highest_rated">Nejlépe hodnocené</a>
+<a href="?order_by=lowest_rated">Nejhůře hodnocené</a>
+<a href="?order_by=upload_date">Naposledy přidané</a>
+</div>
+<hr class="hr" />
+
     {% for food in food_list %}
         <h3><a href="{{ food.get_absolute_url }}">{{ food.title }}</a></h3>
         <p>{% if food.average_rating == "nan"  %}
@@ -18,15 +27,15 @@
         </p>
     {% endfor %}
 {% if food_list.has_previous %}
-    <a href="?page=1">&laquo První&nbsp;</a>    
-    <a href="?page={{ food_list.previous_page_number }}">&lt Předchozí</a>
+    <a href="?page=1&order_by={{ order_by }}">&laquo První&nbsp;</a>    
+    <a href="?page={{ food_list.previous_page_number }}&order_by={{ order_by }}">&lt Předchozí</a>
 {% endif %}
 
 &nbsp;&nbsp;Strana {{ food_list.number }} z {{ food_list.paginator.num_pages }}&nbsp;&nbsp;
 
 {% if food_list.has_next %}
-    <a href="?page={{ food_list.next_page_number }}"> Další &gt;&nbsp;</a>
-    <a href="?page={{ food_list.paginator.num_pages }}"> Poslední &raquo</a>
+    <a href="?page={{ food_list.next_page_number }}&order_by={{ order_by }}"> Další &gt;&nbsp;</a>
+    <a href="?page={{ food_list.paginator.num_pages }}&order_by={{ order_by }}"> Poslední &raquo</a>
 {% endif %}
 
 {% endblock %}
